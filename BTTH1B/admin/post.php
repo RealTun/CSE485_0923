@@ -68,7 +68,7 @@
                     echo '<div class="row bg-warning p-2 mb-3 notification">
                         <div class="col"></div>
                         <div class="col text-success text-center h5">
-                            Edit author successful!
+                            Update post successful!
                         </div>
                         <div class="col">
                             <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
@@ -79,7 +79,7 @@
                     echo '<div class="row bg-warning p-2 mb-3 notification">
                         <div class="col"></div>
                         <div class="col text-danger text-center h5">
-                            Cannot edit the author to database!
+                            Cannot update the post to database!
                         </div>
                         <div class="col">
                             <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
@@ -87,15 +87,13 @@
                     </div>';
                 }
             ?>
-            <a href="./add_author.php" class="btn btn-success">Thêm mới</a>
+            <a href="./add_post.php" class="btn btn-success">Thêm mới</a>
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Tiêu đề</th>
                         <th scope="col">Tên bài hát</th>
-                        <th scope="col">Tóm tắt</th>
-                        <th scope="col">Nội dung</th>
                         <th scope="col">Ngày viết</th>
                         <th scope="col">Sửa</th>
                         <th scope="col">Xoá</th>
@@ -108,15 +106,13 @@
                         <tr>
                             <th scope="row"><?= $post[0] ?></th>
                             <td><?= $post[1] ?></td>
-                            <td><?= $post[1] ?></td>
-                            <td><?= $post[1] ?></td>
-                            <td><?= $post[1] ?></td>
-                            <td><?= $post[1] ?></td>
+                            <td><?= $post[2] ?></td>
+                            <td><?= $post[7] ?></td>
                             <td><a href="./edit_post.php?id=<?= $post[0] ?>"><i class="bi bi-pencil-square"></i></a></td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#author<?= $post[0] ?>"><i class="bi bi-trash-fill"></i>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#post<?= $post[0] ?>"><i class="bi bi-trash-fill"></i>
                                 </button>
-                                <div class="modal fade" id="author<?= $post[0] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="post<?= $post[0] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
