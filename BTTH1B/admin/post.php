@@ -43,7 +43,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>
@@ -80,6 +80,28 @@
                         <div class="col"></div>
                         <div class="col text-danger text-center h5">
                             Cannot update the post to database!
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
+                        </div>
+                    </div>';
+                }
+                if(isset($_GET['delete'])){
+                    echo '<div class="row bg-warning p-2 mb-3 notification">
+                        <div class="col"></div>
+                        <div class="col text-success text-center h5">
+                            Delete post successful!
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
+                        </div>
+                    </div>';
+                }
+                if(isset($_GET['deleteError'])){
+                    echo '<div class="row bg-warning p-2 mb-3 notification">
+                        <div class="col"></div>
+                        <div class="col text-success text-center h5">
+                            Cannot delete the post. Try Again!
                         </div>
                         <div class="col">
                             <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>

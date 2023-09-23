@@ -56,7 +56,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>
@@ -65,7 +65,7 @@
                                 <a class="nav-link active" aria-current="page" href="./author.php">Tác giả</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bài viết</a>
+                                <a class="nav-link" href="./post.php">Bài viết</a>
                             </li>
                         </ul>
 

@@ -63,7 +63,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="./category.php">Thể loại</a>
@@ -72,7 +72,7 @@
                                 <a class="nav-link" href="./author.php">Tác giả</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bài viết</a>
+                                <a class="nav-link" href="./post.php">Bài viết</a>
                             </li>
                         </ul>
 
@@ -82,9 +82,8 @@
         </div>
     </div>
     <main class="container vh-100 mt-5">
-        <div>
-            
-            <form action="" method="post">
+        <div>        
+            <form action="" method="post" enctype="multipart/form-data">
                 <h3 class="text-center">SỬA THÔNG TIN THỂ LOẠI</h3>
                 <div class="mt-4">
                     <div class="input-group mb-3">

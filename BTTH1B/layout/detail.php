@@ -1,3 +1,31 @@
+<?php
+    if(isset($_GET['id'])){
+        $id_post = $_GET['id'];
+        try{
+            $conn = new PDO('mysql:host=localhost;dbname=btth01_cse485', 'root', 'tuan2106');
+            $sql = "select * from baiviet where ma_bviet = '$id_post'";
+            $state = $conn->prepare($sql);
+            $state->execute();
+            $post = $state->fetch(PDO::FETCH_ASSOC);
+
+            // get name category
+            $sql_category = "select ten_tloai from theloai where ma_tloai = '{$post['ma_tloai']}'";
+            $state = $conn->prepare($sql_category);
+            $state->execute();
+            $nameCategory = $state->fetchColumn();
+
+            // get name author
+            $sql_author = "select ten_tgia from tacgia where ma_tgia = '{$post['ma_tgia']}'";
+            $state = $conn->prepare($sql_author);
+            $state->execute();
+            $nameAuthor = $state->fetchColumn();
+            
+        }catch(PDOException $e){
+            echo "Error: {$e->getMessage()}";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +52,7 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+                                <a class="nav-link active" aria-current="page" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Đăng nhập</a>
@@ -40,19 +68,19 @@
         </div>
         <div class="row">
             <div class="card mb-3">
-                <div class="row g-0">
+                <div class="row g-0 my-5">
                     <div class="col-md-1"></div>
                     <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
+                        <img src="../images/post/<?=$post['hinhanh'] ?>" class="img-fluid rounded-start" alt="..." height="200px">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 px-4">
                         <div class="card-body">
-                            <h5 class="card-title text-primary">Card title</h5>
-                            <p class="card-text"><strong>Bài hát: </strong>alo</p>
-                            <p class="card-text"><strong>Thể loại: </strong>saddasdsad</p>
-                            <p class="card-text"><strong>Tóm tắt: </strong>dsadsasadsad214213</p>
-                            <p class="card-text"><strong>Nội dung: </strong></p>
-                            <p class="card-text"><strong>Tác giả: </strong></p>
+                            <h5 class="card-title text-primary"><?=$post['ten_bhat'] ?></h5>
+                            <p class="card-text"><strong>Bài hát: </strong><?=$post['ten_bhat'] ?></p>
+                            <p class="card-text"><strong>Thể loại: </strong><?=$nameCategory ?></p>
+                            <p class="card-text"><strong>Tóm tắt: </strong><?=$post['tomtat'] ?></p>
+                            <p class="card-text"><strong>Nội dung: </strong><?=$post['noidung'] ?></p>
+                            <p class="card-text"><strong>Tác giả: </strong><?=$nameAuthor ?></p>
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
                     </div>

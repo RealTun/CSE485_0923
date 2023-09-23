@@ -1,3 +1,16 @@
+<?php
+    try{
+        $conn = new PDO("mysql:host=localhost;dbname=btth01_cse485", 'root', 'tuan2106');
+        $sql = "select * from baiviet";
+        $state = $conn->prepare($sql);
+        $state->execute();
+        $posts = $state->fetchAll();
+
+    }catch(PDOException $e){
+        echo "Error: {$e->getMessage()}";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,43 +86,22 @@
             </div>
         </div>
         <h3 class="text-center text-primary mt-2 mx-2">TOP BÀI HÁT YÊU THÍCH</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4">         
-            <div class="col">
-                <div class="card h-100">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">    
+            <?php
+                foreach($posts as $post){
+                ?>
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="../images/post/<?=$post[8]?>" class="card-img-top" alt="..." height="250px">
+                            <div class="card-body text-center">
+                                <a href="./detail.php?id=<?=$post[0] ?>" class="card-text text-decoration-none"><?=$post[2] ?></a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a short card.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </div>
+                <?php
+                }
+            ?>
+            
         </div>
     </div>
 

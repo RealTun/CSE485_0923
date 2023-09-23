@@ -14,20 +14,19 @@
                 $nameFile = $_FILES['file']['name'];
                 $nameAuthor = $_POST['nameAuthor'];
     
-                $sql_check = "select * from tacgia where ten_tgia = '{$nameAuthor}'";
-                $state = $conn->prepare($sql_check);
-                $state->execute();
-    
-                if($state->fetchColumn() != 0){
-                    header("location: ./author.php?error=ok");
-                }
+                // $sql_check = "select * from tacgia where ten_tgia = '{$nameAuthor}'";
+                // $state = $conn->prepare($sql_check);
+                // $state->execute();
+                
+
+                $sql_insert = "update tacgia set ten_tgia = '$nameAuthor', hinh_tgia= '$nameFile' where ma_tgia = $id";
+                $state = $conn->prepare($sql_insert);
+                if($state->execute()){
+                    header("location: ./author.php?success=ok");
+                } 
                 else{
-                    $sql_insert = "update tacgia set ten_tgia = '$nameAuthor', hinh_tgia= '$nameFile' where ma_tgia = $id";
-                    $state = $conn->prepare($sql_insert);
-                    if($state->execute()){
-                        header("location: ./author.php?success=ok");
-                    }
-                }          
+                    header("location: ./author.php?error=ok");
+                }       
             }   
         }       
     }catch(PDOException $e){
@@ -64,7 +63,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>
@@ -73,7 +72,7 @@
                                 <a class="nav-link active" aria-current="page" href="./author.php">Tác giả</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bài viết</a>
+                                <a class="nav-link" href="./post.php">Bài viết</a>
                             </li>
                         </ul>
 
@@ -85,7 +84,7 @@
     <main class="container vh-100 mt-5">
         <div>
             
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <h3 class="text-center">SỬA THÔNG TIN TÁC GIẢ</h3>
                 <div class="mt-4">
                     <div class="text-center">

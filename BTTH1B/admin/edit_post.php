@@ -3,7 +3,7 @@
         $conn = new PDO("mysql:host=localhost;dbname=btth01_cse485", 'root', 'tuan2106');
 
         if(isset($_GET['id'])){
-            $id = $_GET['id'];
+            $id = $_GET['id'];  
 
             $sql_detail = "select * from baiviet where ma_bviet = $id";
             $state = $conn->prepare($sql_detail);
@@ -23,27 +23,28 @@
             $author = $state->fetchColumn();   
 
             //
-            if(isset($_POST['submit'])){
-                $nameFile = $_FILES['file']['name'];            
+            if(isset($_POST['submit'])){         
                 $title = $_POST['title'];
                 $song = $_POST['nameSong'];
                 $summary = $_POST['summary'];
                 $content = $_POST['content'];
                 $nameAuthor = $_POST['nameAuthor'];
                 $nameCategory = $_POST['nameCategory'];
-                
+                $nameFile = $_FILES['file']['name'];
+
                 // get id author
                 $state = $conn->prepare("select ma_tgia from tacgia where ten_tgia = '$nameAuthor'");
                 $state->execute();
                 $id_author = $state->fetchColumn();
 
-                // get id category
+                // // get id category
                 $state = $conn->prepare("select ma_tloai from theloai where ten_tloai = '$nameCategory'");
                 $state->execute();
                 $id_category = $state->fetchColumn();
     
-                // insert
+                // // insert
                 $sql_update = "update baiviet set tieude = '{$title}', ten_bhat = '{$song}', ma_tloai = '{$id_category}', tomtat = '{$summary}', noidung = '{$content}', ma_tgia = '{$id_author}', hinhanh = '{$nameFile}' where ma_bviet = $id";
+                echo $sql_update;
                 $state = $conn->prepare($sql_update);
                 if($state->execute()){
                     header("location: ./post.php?success=ok");
@@ -87,7 +88,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>
@@ -108,7 +109,7 @@
     <main class="container vh-100 mt-5">
         <div>
             
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <h3 class="text-center">SỬA THÔNG TIN BÀI VIẾT</h3>
                 <div class="mt-4">
                     <div class="text-center">
@@ -167,11 +168,11 @@
                     </select>
                 </div>
                 <div class="form-floating mt-3">
-                    <textarea class="form-control" name="summary" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"><?=$post['tomtat'] ?></textarea>
+                    <textarea class="form-control" name="summary" id="floatingTextarea2" style="height: 100px"><?=$post['tomtat'] ?></textarea>
                     <label for="floatingTextarea2">Tóm tắt</label>
                 </div>
                 <div class="form-floating mt-3">
-                    <textarea class="form-control" name="content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"><?=$post['noidung'] ?></textarea>
+                    <textarea class="form-control" name="content" id="floatingTextarea2" style="height: 100px"><?=$post['noidung'] ?></textarea>
                     <label for="floatingTextarea2">Nội dung</label>
                 </div>
                     <div class="mb-3">
@@ -194,7 +195,7 @@
         var upload = document.querySelector('#formFile');
         upload.addEventListener('change', function(e) {
             let filename = upload.value.replace("C:\\fakepath\\", "");
-            image.src = "..\\images\\author\\" + filename;
+            image.src = "..\\images\\post\\" + filename;
         })
 
         var btn = document.querySelector('.btn-close');

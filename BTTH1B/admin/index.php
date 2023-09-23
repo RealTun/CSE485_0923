@@ -21,7 +21,10 @@
         $countAuthor = $state->fetchColumn();
 
         //
-        
+        $sql_post = 'select count(*) from baiviet';
+        $state = $conn->prepare($sql_post);
+        $state->execute();
+        $countPost = $state->fetchColumn();
 
     }catch(PDOException $e){
         echo "Error: {$e->getMessage()}";
@@ -57,7 +60,7 @@
                                 <a class="nav-link active" aria-current="page" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>
@@ -105,7 +108,7 @@
                 <div class="card h-100 p-3">
                     <div class="card-body">
                         <h6 class="card-title text-primary text-center">Bài viết</h6>
-                        <p class="card-text text-center">e22131</p>
+                        <p class="card-text text-center"><?=$countPost ?></p>
                     </div>
                 </div>
             </div>

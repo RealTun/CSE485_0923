@@ -1,4 +1,11 @@
 <?php
+    session_start();
+
+    if(isset($_SESSION['login'])){
+        header("location: ../layout/login.php");
+    }
+?>  
+<?php
     $dbuser = 'root';
     $dbpw = 'tuan2106';
     try {
@@ -43,7 +50,7 @@
                                 <a class="nav-link" href="./index.php">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Trang ngoài</a>
+                                <a class="nav-link" href="../layout/index.php">Trang ngoài</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="./category.php">Thể loại</a>

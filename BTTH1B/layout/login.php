@@ -14,6 +14,10 @@
             else{
                 header("location: ./login.php?error=ok");
             }
+
+            // password_verify() -> sessions start -> khoi tao session[] =$user -> header();
+            // send email to verify when sign up 
+            // 
         }
     }catch(PDOException $e){
         echo "Error: {$e->getMessage()}";
