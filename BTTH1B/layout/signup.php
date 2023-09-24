@@ -1,31 +1,68 @@
 <?php
-    if(isset($_POST['sbmLogin'])){
-        $username = $_POST['username'];
-        $pw = $_POST['password'];
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    
+    require '../PHPMailer-master/PHPMailer-master/src/Exception.php';
+    require '../PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
+    require '../PHPMailer-master/PHPMailer-master/src/SMTP.php';
+    if(isset($_POST['register'])){
+        $name = $_POST['username'];
+        $pw = $_POST['password1'];
+        $email = $_POST['email'];
+
+        $mail = new PHPMailer(true);
 
         try{
-            $conn = new PDO("mysql:host=localhost;dbname=btth01_cse485", 'root', 'tuan2106');
-            $sql_check = "select * from users where username = '$username'";
+            $mail->SMTPDebug = 0;
+
+            $mail->isSMTP();
+
+            $mail->Host = 'smtp.gmail.com';
+
+            $mail->SMTPAuth = true;
+
+            $mail->Username = 'maumai07@gmail.com';
+
+            $mail->Password = 'rhuajoxnlbiuanyn';
+
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+            $mail->Port = 587;
+
+            $mail->setFrom('maumai07@gmail.com', 'realtun-tech');
+
+            $mail->addAddress($email, $name);
+
+            $mail->isHTML(true);
+
+            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+            $mail->Subject = 'OTP verification';
+            $mail->Body = '<p>Your verification code is: <b style="font-size: 30px">' . $verification_code . '</b></p>';
+            $mail->send();
+
+            $encrypted_password = password_hash($pw, PASSWORD_DEFAULT);
+
+
+            //
+            $conn = new PDO('mysql:host=localhost;dbname=btth01_cse485', 'root', 'tuan2106');
+            $sql_check = "select * from users where username= '$name' or email = '$email'";
             $state = $conn->prepare($sql_check);
             $state->execute();
-    
+
             if($state->rowCount() > 0){
-                $user = $state->fetch(PDO::FETCH_ASSOC);
-                $pw_hash = $user['pw'];
-                if(password_verify($pw, $pw_hash)){
-                    session_start();
-                    $_SESSION['isLogin'] = $user;
-                    header('location: ../admin/index.php');
-                }
-                else{
-                    header("location: ./login.php?error=password_is_wrong");
-                }
+                header('location: ./signup.php?error=System has this user!');
             }
             else{
-                header("location: ./login.php?error=user_is_not_existed");
+                $sql_insert = "insert into users (email, username, pw, verification_code, email_verified_at) values ('$email', '$name', '$encrypted_password' , '$verification_code', NULL)";
+                $state = $conn->prepare($sql_insert);
+                $state->execute();
+
+                header("location: verification.php?verify=$email");
             }
+
             
-        }catch(PDOException $e){
+        }catch(Exception $e){
             echo "Error: {$e->getMessage()}";
         }
     }
@@ -37,8 +74,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
-    <link rel="stylesheet" href="../admin/">
+    <title>Đăng ký tài khoản</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -85,48 +121,40 @@
                         </div>
                     </div>';
                 }
-                if(isset($_GET['success'])){                   
-                    echo '<div class="row bg-warning p-2 mb-3 notification">
-                        <div class="col"></div>
-                        <div class="col text-success text-center h5">
-                            Sign up successful!
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
-                        </div>
-                    </div>';
-                }
+                
             ?>
             <div class="row">
                 <div class="col align-self-center"></div>
                 <div class="col align-self-center">
-                    <form action="" method="post">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Sign In</h4>
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
+                                    <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" required>
+                                </div>
+                                <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
                                     <input type="text" class="form-control" name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
-                                    <input type="password" class="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
+                                    <input type="password" class="form-control" name="password1" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Remember me
-                                    </label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
+                                    <input type="password" class="form-control" name="password2" placeholder="Confirm Password" aria-label="Password" aria-describedby="basic-addon1" required>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <input type="submit" value="Login" name="sbmLogin" class="btn btn-warning px-4">
+                                    <input type="submit" value="Sign up" name="register" class="btn btn-warning px-4">
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="text-center p-3">
-                                    <p>Dont have an account?<a href="./signup.php" class="text-warning">Sign up</a></p>
+                                    <p>If you have an account?<a href="./login.php" class="text-warning">Login</a></p>
                                     <a href="#" class="text-warning">Forgot your password?</a>
                                 </div>
                             </div>

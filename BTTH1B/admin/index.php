@@ -1,4 +1,12 @@
 <?php
+    session_start();
+
+    if(!isset($_SESSION['isLogin'])){
+        header("location: ../layout/login.php");
+    }
+?>
+
+<?php
     try{
         $conn = new PDO('mysql:host=localhost;dbname=btth01_cse485', 'root', 'tuan2106');
 

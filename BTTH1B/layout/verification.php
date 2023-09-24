@@ -1,33 +1,35 @@
 <?php
-    if(isset($_POST['sbmLogin'])){
-        $username = $_POST['username'];
-        $pw = $_POST['password'];
-
-        try{
-            $conn = new PDO("mysql:host=localhost;dbname=btth01_cse485", 'root', 'tuan2106');
-            $sql_check = "select * from users where username = '$username'";
-            $state = $conn->prepare($sql_check);
+    if(isset($_GET['verify'])){
+        $email = $_GET['verify'];
+        try
+        {
+            $conn = new PDO('mysql:host=localhost;dbname=btth01_cse485', 'root', 'tuan2106');
+            $sql = "select * from users where email = '$email'";
+            $state = $conn->prepare($sql);
             $state->execute();
-    
+
             if($state->rowCount() > 0){
-                $user = $state->fetch(PDO::FETCH_ASSOC);
-                $pw_hash = $user['pw'];
-                if(password_verify($pw, $pw_hash)){
-                    session_start();
-                    $_SESSION['isLogin'] = $user;
-                    header('location: ../admin/index.php');
-                }
+                $user = $state->fetch(PDO::FETCH_ASSOC);       
+            }
+
+            if(isset($_POST['btnVerify'])){
+                $verification_code = $user['verification_code'];
+                if($_POST['otp'] == $verification_code){
+                    date_default_timezone_set('Asia/Ho_Chi_Minh');
+                    $now = date("Y-m-d H:i:s");
+                    $sql = "update users set email_verified_at = '$now' where email = '$email'";
+                    $state = $conn->prepare($sql);
+                    $state->execute();
+                    header('location: login.php?success=ok');
+                }  
                 else{
-                    header("location: ./login.php?error=password_is_wrong");
+                    $flag = 1;
                 }
             }
-            else{
-                header("location: ./login.php?error=user_is_not_existed");
-            }
-            
-        }catch(PDOException $e){
-            echo "Error: {$e->getMessage()}";
         }
+        catch(PDOException $e){
+            echo "Error: {$e->getMessage()}";
+        }     
     }
 ?>
 
@@ -37,8 +39,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
-    <link rel="stylesheet" href="../admin/">
+    <title>Đăng ký tài khoản</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -85,11 +86,11 @@
                         </div>
                     </div>';
                 }
-                if(isset($_GET['success'])){                   
+                if($flag == 1){
                     echo '<div class="row bg-warning p-2 mb-3 notification">
                         <div class="col"></div>
-                        <div class="col text-success text-center h5">
-                            Sign up successful!
+                        <div class="col text-danger text-center h5">
+                            OTP is not vaild!
                         </div>
                         <div class="col">
                             <button type="button" class="btn-close" data-bs-dissmiss="notification" aria-label="Close"></button>
@@ -100,33 +101,23 @@
             <div class="row">
                 <div class="col align-self-center"></div>
                 <div class="col align-self-center">
-                    <form action="" method="post">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Sign In</h4>
+                                <h4>Verify your account</h4>
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                                    <input type="text" class="form-control" name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
-                                    <input type="password" class="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Remember me
-                                    </label>
-                                </div>
+                                    <span class="input-group-text" id="basic-addon1">OTP</span>
+                                    <input type="text" class="form-control" name="otp" aria-describedby="basic-addon1" required maxlength="6">
+                                </div>                               
                                 <div class="d-flex justify-content-end">
-                                    <input type="submit" value="Login" name="sbmLogin" class="btn btn-warning px-4">
+                                    <input type="submit" value="Verify" name="btnVerify" class="btn btn-warning px-4">
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="text-center p-3">
-                                    <p>Dont have an account?<a href="./signup.php" class="text-warning">Sign up</a></p>
+                                    <p>If you have an account?<a href="./login.php" class="text-warning">Login</a></p>
                                     <a href="#" class="text-warning">Forgot your password?</a>
                                 </div>
                             </div>
