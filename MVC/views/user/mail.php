@@ -39,8 +39,6 @@
 
             $mail->Subject = 'OTP verification';
             $mail->Body = '<p>Your verification code is: <b style="font-size: 30px">' . $verification_code . '</b></p>';
-            // $mail->Subject = 'Diem danh 63HTTT1-Do Huu Tuan';
-            // $mail->Body = '.';
             
 
             $encrypted_password = password_hash($pw, PASSWORD_DEFAULT);
@@ -53,7 +51,7 @@
             $state->execute();
 
             if($state->rowCount() > 0){
-                header('location: ./signup.php?error=The user has existed!');
+                header("location: ". DOMAIN.'/views/index.php?controller=user&action=signup&error=user_or_email_has_existed');
             }
             else{
                 $mail->send();
@@ -61,7 +59,7 @@
                 $state = $conn->prepare($sql_insert);
                 $state->execute();
 
-                header("location: verification.php?verify=$email");
+                header("location: ./user/verification.php?user=$name&verify=$email");
             }
 
             

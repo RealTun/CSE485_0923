@@ -5,26 +5,6 @@
     $controller = isset($_GET['controller'])? $_GET['controller'] : null;
     $action = isset($_GET['action']) ? $_GET['action'] : null;
 
-    // if($controller == 'author'){
-    //     require_once APP_ROOT.'/controllers/AuthorController.php';
-    //     $authorController = new AuthorController();
-
-    //     if($action == 'list'){                
-    //         $authorController->index();
-    //     }
-    //     elseif($action == 'add'){
-    //         $authorController->add();
-    //     }
-    //     elseif($action == 'edit'){
-    //         $authorController->edit();
-    //     }
-    //     elseif($action == 'delete'){
-    //         $authorController->delete();
-    //     }
-    // }
-    // else{
-    //     echo 'URL khong ton tai';
-    // }
     switch($controller){
         case 'author':
             require_once APP_ROOT.'/controllers/AuthorController.php';
@@ -62,6 +42,7 @@
             switch($action){
                 case 'login': $userController->login(); break;
                 case 'signup': $userController->signup(); break;
+                case 'verify': $userController->verification(); break;
             }
             break;
     }

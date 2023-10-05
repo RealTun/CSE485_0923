@@ -42,5 +42,19 @@ class UserServices{
             }
         }
     }
+
+    public function verification($username){
+        $dbConnection = new DBConnection();
+        $conn = $dbConnection->getConnection();
+        if($conn != null){
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $now = date("Y-m-d H:i:s");
+            $sql = "update users set email_verified_at = '$now' where username = '$username'";
+            $state = $conn->query($sql);
+            if($state->rowCount() > 0){
+                header("location: ". DOMAIN.'/views/index.php?controller=user&action=login&success=verification_account_successful');
+            }
+        }
+    }
 }
 ?>

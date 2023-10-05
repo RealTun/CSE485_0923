@@ -16,7 +16,7 @@
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
-                        <img src="../images/combined-logo.png" alt="Music is life" height="80px">
+                        <img src="./images/combined-logo.png" alt="Music is life" height="80px">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Sign In</h4>
+                                <h4>Sign up</h4>
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
