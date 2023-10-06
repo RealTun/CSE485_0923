@@ -1,0 +1,20 @@
+CREATE DATABASE PhongMach;
+
+USE PhongMach;
+
+CREATE TABLE BacSi
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tenBacSi VARCHAR(255),
+	chuyenKhoa VARCHAR(255)
+)
+
+CREATE TABLE BenhNhan
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tenBenhNhan VARCHAR(255),
+	ngayKham DATE,
+	trieuChung TEXT,
+	idBacSi INT,
+	FOREIGN KEY (idBacSi) REFERENCES BacSi(id)
+)
