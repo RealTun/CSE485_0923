@@ -23,14 +23,14 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
+                        <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bác sĩ</a>
+                                <a class="nav-link" href="<?=DOMAIN."/views/index.php?controller=doctor&action=list"; ?>">Bác sĩ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./post.php">Bệnh nhân</a>
+                                <a class="nav-link" href="<?=DOMAIN."/views/index.php?controller=patient&action=list"; ?>">Bệnh nhân</a>
                             </li>
                         </ul>
 

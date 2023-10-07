@@ -18,3 +18,9 @@ CREATE TABLE BenhNhan
 	idBacSi INT,
 	FOREIGN KEY (idBacSi) REFERENCES BacSi(id)
 )
+
+insert into bacsi (id, tenBacSi, chuyenKhoa) values (1, 'Rides', 'Aluminum Hydroxide, Magnesium Hydroxide, Simethicone');
+insert into bacsi (id, tenBacSi, chuyenKhoa) values (2, 'Purchall', 'Acetaminophen');
+insert into bacsi (id, tenBacSi, chuyenKhoa) values (3, 'Blaxall', 'Octinoxate and Oxybenzone');
+insert into bacsi (id, tenBacSi, chuyenKhoa) values (4, 'MacGovern', 'Alcohol');
+insert into bacsi (id, tenBacSi, chuyenKhoa) values (5, 'Bowra', 'Acetaminophen');

@@ -24,7 +24,7 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="<?=DOMAIN."/views/home/index.php"; ?>">Trang chủ</a>
+                                <a class="nav-link" href="<?=DOMAIN."/views/index.php"; ?>">Trang chủ</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"  href="<?=DOMAIN."/views/index.php?controller=doctor&action=list"; ?>">Bác sĩ</a>
